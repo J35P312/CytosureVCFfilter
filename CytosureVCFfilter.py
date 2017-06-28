@@ -23,6 +23,13 @@ for line in open(args.vcf):
         svlen=abs(int(content[1])-end)
         if svlen < args.size:
             continue
+    if not "END" in content[7] and "WINA=" in content[7] and "WINB=" in content[7] and ":" in content[4]:
+        chromosomeA=content[0]
+        posA=int(content[1])
+        chromosomeB=content[4].split("N[")[-1].split(":")[0]
+        posB=int(content[4].split(":")[-1].split("[")[0])
+        if chromosomeA == chromosomeB and abs(posA-posB) < args.size:
+            continue
 
     #test tiddit support, flag as low quallity if too low 
     if "WINA=" in content[7] and "WINB=" in content[7]:
